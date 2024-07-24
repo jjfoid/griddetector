@@ -29,7 +29,7 @@ GPIO_Pin = 22
 #Check if WiFi connection is established (in boot.py)
 #----------------------
 wl = network.WLAN(network.STA_IF)
-while not wl.isconnected() and wlan.status() >= 0:
+while not wl.isconnected() and wl.status() >= 0:
     time.sleep(0.1)
 
 #----------------------
