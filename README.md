@@ -9,7 +9,7 @@ Applicable mainly in Ukraine with planned grid outages, however, can be used in 
 ## Wiring
 
 Connect the normal open dry contact of the relay using a pull-down circuit, so when the relay is powered by the grid line - the pin goes `HIGH`.
-![](images/pull_up.png)
+![](images/pull-up.png)
 
 ## Installation
 
