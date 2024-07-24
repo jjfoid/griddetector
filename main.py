@@ -134,7 +134,6 @@ if button.value():
     #                + schedule.get_grid_gray(weekday, hour))
 else:
     GridState = False
-    led.off()
     #GridStateChange(PrintableTimestamp() + u"%0A\u26A1"\
     #                + 'Детектор увімкнено\\.%0A\U0001F534 Поточний статус \\- *Немає світла*\\!'\
     #                + schedule.get_grid_on(weekday, hour)\
@@ -149,7 +148,7 @@ with open('laststatechange', "r") as f:
 #----------------------
 #Set handler for Grid State changes
 #----------------------
-button.irq(handler=PowerEventHandler, trigger=Pin.IRQ_FALLING | Pin.IRQ_RISING, hard=False)
+button.irq(handler=PowerEventHandler, trigger=Pin.IRQ_FALLING | Pin.IRQ_RISING)
 
 #----------------------
 #Send message to the owner that everything is fine
