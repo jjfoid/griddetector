@@ -2,8 +2,14 @@
 
 griddetector is a telegram bot written in micropython.
 Verified on Raspberry Pi Pico W and ESP32-S3, but also should work on any board supported by micropython.
-Monitors the state of the GPIO pin connected to the dry contact of the relay powered by a direct Grid line.
+Monitors the state of the external Grid line using a GPIO pin connected to the dry contact of the relay powered by a direct Grid line.
+Sends notifications to telegram chat about Grid state changes, together with some statistics.
+Applicable mainly in Ukraine with planned grid outages, however, can be used in any location, but you need to modify the code to exclude not needed functionality.
+
+## Wiring
+
 Connect the normal open dry contact of the relay using a pull-down circuit, so when the relay is powered by the grid line - the pin goes `HIGH`.
+![](images/pull_up.png)
 
 ## Installation
 
