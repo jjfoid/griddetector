@@ -12,7 +12,7 @@ import dtek
 #The token of your telegram bot obtained from the Bot Father
 BOT_TOKEN = ''
 #The ID of the chat/channel your bot must send messages to
-BOT_CHAT_ID = ''
+BOT_CHAT_ID = '' #Test channel
 #Your personal ID to get notifications from bot
 BOT_OWNER_ID = ''
 #ntp hostname. Default is 'pool.ntp.org', but it has some limitations.
@@ -21,9 +21,11 @@ ntptime.host = 'pool.ntp.org'
 #Difference in seconds between GMT and your Time Zone as native ntptime lib returns time in GMT
 TZ=10800
 #GPIO pin to monitor, 22 by default, but you need to change it to your actual pin
-GPIO_Pin = 22
-
-
+GPIO_PIN = 1 
+#Messages to be posted to the chat together with timestamps and schedules
+GRID_ON_MESSAGE = '%0A\U0001F7E2Світло з\'явилося%0A' + u"\u23F1" + 'Його не було '
+GRID_OFF_MESSAGE = '%0A\U0001F534Світло зникло%0A' + u"\u23F1" + 'Воно було '
+STARTUP_MESSAGE_TO_OWNER = ' Bot started'
 
 #----------------------
 #Check if WiFi connection is established (in boot.py)
@@ -51,7 +53,7 @@ schedule = dtek.schedule()
 #----------------------
 #Init GPIO
 #----------------------
-button = Pin(GPIO_Pin, Pin.IN, Pin.PULL_UP)
+button = Pin(GPIO_PIN, Pin.IN, Pin.PULL_UP)
 
 #----------------------
 #Main logic
@@ -72,15 +74,15 @@ def StoreLastStateChange(timestamp):
 #Calculate delta between last Grid state change and actual event
 def StatesTimeDelta():
     Delta=NewStateChange-LastStateChange
-    DeltaHr=round(Delta/3600)
-    DeltaMin=round((Delta-DeltaHr*3600)/60)
-    DeltaSec=round(Delta-DeltaHr*3600-DeltaMin*60)
+    DeltaHr=round(Delta / 3600)
+    DeltaMin=round((Delta - DeltaHr * 3600) / 60)
+    DeltaSec=round(Delta-DeltaHr * 3600 - DeltaMin * 60)
     if DeltaMin < 0:
-        DeltaHr=DeltaHr-1
-        DeltaMin=DeltaMin+60
+        DeltaHr=DeltaHr - 1
+        DeltaMin=DeltaMin + 60
     if DeltaSec < 0:
-        DeltaMin=DeltaMin-1
-        DeltaSec=DeltaSec+60
+        DeltaMin=DeltaMin - 1
+        DeltaSec=DeltaSec + 60
     DeltaString = "{:02d} г {:02d} хв {:02d} сек"
     return DeltaString.format(DeltaHr, DeltaMin, DeltaSec)
 
@@ -98,8 +100,7 @@ def PowerEventHandler (pin):
                 NewStateChange=time.time()
                 year, month, day, hour, minute, second, weekday, yearday = time.localtime()
                 GridStateChange(PrintableTimestamp()\
-                                + '%0A\U0001F7E2Світло з\'явилося%0A'\
-                                + u"\u23F1" + 'Його не було '\
+                                + GRID_ON_MESSAGE\
                                 + StatesTimeDelta()\
                                 + schedule.get_grid_off(weekday, hour)\
                                 + schedule.get_grid_gray(weekday, hour))
@@ -114,8 +115,7 @@ def PowerEventHandler (pin):
                 NewStateChange=time.time()
                 year, month, day, hour, minute, second, weekday, yearday = time.localtime()
                 GridStateChange(PrintableTimestamp()\
-                                + '%0A\U0001F534Світло зникло%0A'\
-                                + u"\u23F1" + 'Воно було '\
+                                + GRID_OFF_MESSAGE\
                                 + StatesTimeDelta()\
                                 + schedule.get_grid_on(weekday, hour)\
                                 + schedule.get_grid_gray(weekday, hour))
@@ -153,7 +153,7 @@ button.irq(handler=PowerEventHandler, trigger=Pin.IRQ_FALLING | Pin.IRQ_RISING)
 #----------------------
 #Send message to the owner that everything is fine
 #----------------------
-bot.send_get(BOT_OWNER_ID, PrintableTimestamp()+' Bot started') #Send some diag data
+bot.send_get(BOT_OWNER_ID, PrintableTimestamp()+STARTUP_MESSAGE_TO_OWNER) #Send some diag data
 
 #----------------------
 #Init Schedule posting
@@ -167,20 +167,20 @@ TimeTillPost = SchedulePostTime - time.time()
 if TimeTillPost > 0: #If the planned time is bigger than now
     time.sleep(TimeTillPost+1)
 else: #If it in the past - we should wait till tomorrow
-    time.sleep(24*60*60 + TimeTillPost + 1)
+    time.sleep(24 * 60 * 60 + TimeTillPost + 1)
 
 #----------------------
 #The main loop
 #----------------------
 try:
     while True:
-        year, month, day, hour, minute, second, weekday, yearday = time.localtime(ntptime.time()+TZ)
+        year, month, day, hour, minute, second, weekday, yearday = time.localtime(ntptime.time() + TZ)
         RTC().datetime((year, month, day, 0, hour, minute, second, 0))
 
         datetime = time.localtime()
         GridStateChange(schedule.get_day_schedule(datetime[6], datetime[1],datetime[2]))
         #Sleep for 24 hrs
-        time.sleep(24*60*60)
+        time.sleep(24 * 60 * 60)
         pass
 except KeyboardInterrupt: # If CTRL+C is pressed, exit cleanly:
     time.sleep(0)
