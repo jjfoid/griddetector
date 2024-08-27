@@ -17,6 +17,21 @@ Connect the normal open dry contact of the relay using a pull-down circuit, so w
 
 ![](images/pull-up.png)
 
+## Hardware
+
+I've tried the following controllers:
+- Raspberry Pi PICO W https://www.raspberrypi.com/products/raspberry-pi-pico/
+- Waveshare ESP32-S3-ZERO https://www.waveshare.com/esp32-S3-zero.htm
+- Waveshare ESP32-S3-NANO https://www.waveshare.com/esp32-s3-nano.htm
+
+As a relay, I use a 1-bit optocoupler you can easily find on Aliexpress for around 1$.
+![](images/optocoupler.png)
+
+Also, I've made some custom DIN-mounted boxes for the first two controllers, so you can print one (or modify on your own).
+![](images/box_esp32-s3-zero.png)
+![](images/box_rpi-pico-w.png)
+
+Printable 3D Models can be found here: https://www.thingiverse.com/thing:6745416
 
 ## Installation
 
