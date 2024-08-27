@@ -25,9 +25,11 @@ I've tried the following controllers:
 - Waveshare ESP32-S3-NANO https://www.waveshare.com/esp32-s3-nano.htm
 
 As a relay, I use a 1-bit optocoupler you can easily find on Aliexpress for around 1$.
+
 ![](images/optocoupler.png)
 
 Also, I've made some custom DIN-mounted boxes for the first two controllers, so you can print one (or modify on your own).
+
 ![](images/box_esp32-s3-zero.png)
 ![](images/box_rpi-pico-w.png)
 
