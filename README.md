@@ -17,7 +17,8 @@ I've tried the following controllers:
 - Raspberry Pi PICO W https://www.raspberrypi.com/products/raspberry-pi-pico/
 - Waveshare ESP32-S3-ZERO https://www.waveshare.com/esp32-S3-zero.htm
 - Waveshare ESP32-S3-NANO https://www.waveshare.com/esp32-s3-nano.htm
-And they works almost perfect. I faced some issues on RPi PICO with false-positive GPIO events, and cannot find a solution to avoid them (except to rewrite the code to use loops only). The ESP32-S3-ZERO is my favorite here - small, fast, cheap ) However, it has a bit obscured power scheme, which is absolutelly OK unless you need to use a separate power supply and want to be able to connect to its USB port at the same time. For this scenario I recommend ESP32-S3-NANO as it has a separate VBUS pin suitable for this purpose (but please don't forget to add a Schottky diode - the 1N5817 would be fine).
+
+And they work almost perfectly. I faced some issues on RPi PICO with false-positive GPIO events, and cannot find a solution to avoid them (except to rewrite the code to use loops only). The ESP32-S3-ZERO is my favorite here - small, fast, and cheap ) However, it has a bit obscured power scheme, which is OK unless you need to use a separate power supply and want to be able to connect to its USB port at the same time. For this scenario, I recommend ESP32-S3-NANO as it has a separate VBUS pin suitable for this purpose (but please don't forget to add a Schottky diode - the 1N5817 would be fine).
 
 As a relay, I use a 1-bit optocoupler you can easily find on Aliexpress for around 1$.
 
