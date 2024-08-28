@@ -11,12 +11,6 @@ Sends notifications to telegram chat about Grid state changes, together with som
 Applicable mainly in Ukraine with planned grid outages, however, can be used in any location, but you need to modify the code to exclude not needed functionality.
 
 
-## Wiring
-
-Connect the normal open dry contact of the relay using a pull-down circuit, so when the relay is powered by the grid line - the pin goes `HIGH`.
-
-![](images/pull-up.png)
-
 ## Hardware
 
 I've tried the following controllers:
@@ -34,6 +28,16 @@ Also, I've made some custom DIN-mounted boxes for the first two controllers, so 
 ![](images/box_rpi-pico-w.png)
 
 Printable 3D Models can be found here: https://www.thingiverse.com/thing:6745416
+
+## Wiring
+
+Connect the normal open dry contact of the relay using a pull-down circuit, so when the relay is powered by the grid line - the pin goes `HIGH`.
+
+![](images/pull-up.png)
+
+The optocoupler needs to be connected like this:
+
+![](images/optocoupler_wiring.png)
 
 ## Installation
 
